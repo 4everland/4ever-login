@@ -178,7 +178,7 @@ export default {
           this.gitOverlay = true;
         }
         if (data.code === 200 && data.data.stoken) {
-          location.href = `${BUCKET_HOST}?stoken=${data.data.stoken}`;
+          location.href = `${BUCKET_HOST}/login?stoken=${data.data.stoken}`;
         }
       } catch (error) {
         console.log(error);
@@ -227,7 +227,7 @@ export default {
           .post(`${authApi}/web3login/${accounts}`, data)
           .then((res) => {
             if (res.data.data.stoken) {
-              location.href = `${BUCKET_HOST}?stoken=${res.data.data.stoken}`;
+              location.href = `${BUCKET_HOST}/login?stoken=${res.data.data.stoken}`;
             }
           });
       } catch (e) {
