@@ -84,14 +84,14 @@
         </div>
       </div>
     </v-dialog>
-    <v-dialog v-model="gitOverlay" width="00">
+    <v-dialog v-model="gitOverlay" width="500">
       <div class="connect-box pa-14">
         <div class="text-caption grey--text text--darken-2 mb-7">
           The Git account is not registered on the bucket, <br />Please use your
           wallet to log in
         </div>
         <v-btn
-          class="start-btn text-subtitle-1 font-weight-black px-10"
+          class="start-btn text-subtitle-1 font-weight-black px-10 white--text"
           @click="gitOverlay = false"
           >OK</v-btn
         >
