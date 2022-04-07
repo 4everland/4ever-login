@@ -127,6 +127,7 @@ export default {
       gitOverlay: false,
       lockOverlay: false,
       accounts: "",
+      inviteCode: null,
       iconList: [
         {
           img: require("@/assets/imgs/home/icon_01.png"),
@@ -151,8 +152,13 @@ export default {
       ],
     };
   },
-  mounted() {
+  created() {
     const code = this.$route.query.code;
+    const inviteCode = this.$route.query.inviteCode;
+    console.log(this.$route);
+    if (inviteCode) {
+      this.inviteCode = inviteCode;
+    }
     if (code) {
       this.getAuth(code);
     }
@@ -164,6 +170,7 @@ export default {
           platform: "github",
           appName: "BUCKET",
           entrance: 2,
+          inviteCode: this.inviteCode,
         };
         const { data } = await this.$axios.get(`${authApi}/login`, {
           params,
@@ -175,7 +182,9 @@ export default {
     },
     async getAuth(code) {
       try {
-        const { data } = await this.$axios.post(`${authApi}/auth/${code}`);
+        const { data } = await this.$axios.post(`${authApi}/auth/${code}`, {
+          inviteCode: this.inviteCode,
+        });
         if (data.code === 430) {
           this.gitOverlay = true;
         }
@@ -224,6 +233,7 @@ export default {
         const data = {
           signature,
           appName: "BUCKET",
+          inviteCode: this.inviteCode,
         };
         this.$axios
           .post(`${authApi}/web3login/${accounts}`, data)
