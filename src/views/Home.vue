@@ -2,7 +2,7 @@
   <div class="home">
     <v-container>
       <v-row class="mt-16">
-        <v-col cols="12" md="6" lg="6" class="ma-auto">
+        <v-col cols="12" class="ma-auto">
           <div
             class="text-center text-h4 font-bold font-weight-bold black--text ma-16"
           >
@@ -13,7 +13,7 @@
           >
             Open your web3.0 cloud computing door
           </div> -->
-          <div class="wallet-box ma-16 black--text text-center py-16">
+          <div class="wallet-box ma-auto black--text text-center py-16">
             <div class="text-h6 font-weight-bold mb-8">Login to 4EVERLAND</div>
             <div
               class="text-Subtitle-2 font-weight-bold grey--text text--lighten-1 mb-16"
@@ -256,6 +256,8 @@ export default {
   .wallet-box {
     background: linear-gradient(150deg, #e1f2ff, #fff6f6);
     border-radius: 10px;
+    max-width: 50%;
+    margin: 0 auto;
     .start-btn {
       background: linear-gradient(90deg, #fdb6fe, #acc0fd, #31adfe);
       border-radius: 44px;
