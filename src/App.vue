@@ -4,7 +4,7 @@
     <v-main>
       <router-view />
     </v-main>
-    <app-footer />
+    <!-- <app-footer /> -->
   </v-app>
 </template>
 

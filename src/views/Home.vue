@@ -4,88 +4,47 @@
       <v-row class="mt-16">
         <v-col cols="12" class="ma-auto">
           <div
-            class="text-center text-h4 font-bold font-weight-bold black--text ma-16"
+            class="text-center text-h3 font-bold font-weight-bold ma-16"
+            style="color: #495667"
           >
-            Get Started with 4EVERLAND
+            Login to 4EVERLAND
           </div>
-          <!-- <div
-            class="text-center text-Subtitle-2 font-weight-bold grey--text text--lighten-1 ma-16"
-          >
-            Open your web3.0 cloud computing door
-          </div> -->
-          <div class="wallet-box ma-auto black--text text-center py-16">
-            <div class="text-h6 font-weight-bold mb-8">Login to 4EVERLAND</div>
+          <div class="wallet">
             <div
-              class="text-Subtitle-2 font-weight-bold grey--text text--lighten-1 mb-16"
+              class="text-Subtitle-1 font-weight-bold mb-4 ml-1"
+              style="color: #495667"
             >
-              Connect your wallet to access the 4EVERLAND.
+              Connect your wallet
             </div>
-            <v-btn
-              class="d-block start-btn ma-auto px-10 text-Subtitle-2 font-weight-bold white--text mb-4"
-              x-large
-              @click="connectOverlay = true"
-              >Connect Wallet</v-btn
-            >
-            <v-btn
-              class="d-block ma-auto font-weight-bold"
-              plain
-              text
-              color="#666"
-              @click="onLogin"
-              >Continue with GitHub</v-btn
-            >
-          </div>
-        </v-col>
-        <!-- <v-col cols="12" md="6" lg="6">
-          <div class="ma-16">
-            <div
-              v-for="(item, index) in iconList"
-              :key="index"
-              class="d-flex align-center my-14"
-            >
-              <v-img :src="item.img" width="100" class="flex-grow-0"></v-img>
-              <div class="ml-16">
-                <span class="d-block text-h6 font-weight-bold mb-4">{{
-                  item.name
-                }}</span>
-                <span
-                  class="d-block text-Subtitle-2 font-weight-bold grey--text text--lighten-1"
-                  >{{ item.text }}</span
+            <div class="wallet-box">
+              <div
+                class="wallet-item"
+                v-for="(item, index) in walletItem"
+                :key="item.name"
+              >
+                <div class="wallet-item-name">
+                  <img :src="item.icon" alt="" />
+                  <span class="name">{{ item.name }}</span>
+                </div>
+                <v-btn
+                  :elevation="0"
+                  class="start-btn text-subtitle-2"
+                  :color="index == 0 ? '#34A9FF' : '#E6E8EB'"
+                  small
+                  @click="connect(item.name)"
+                  >{{ item.btnText }}</v-btn
                 >
               </div>
             </div>
-          </div>
-        </v-col> -->
-      </v-row>
-    </v-container>
-    <v-dialog v-model="connectOverlay" width="500">
-      <div class="connect-box pa-8">
-        <div class="text-h5 font-weight-black purple-color mb-5">
-          Connect Wallet
-        </div>
-        <div class="text-caption grey--text text--darken-2 mb-7">
-          After connecting to your wallet, you'll be able to make changes in
-          custom settings. Pleses select the Ethereum Mainnet network.
-        </div>
-        <div class="d-flex justify-space-between align-center">
-          <div class="d-flex align-center">
-            <v-img
-              max-height="36"
-              max-width="36"
-              :src="require('@/assets/imgs/metamask.png')"
-            ></v-img>
-            <span class="text-subtitle-1 font-weight-black purple-color ml-3"
-              >MetaMask</span
+            <div class="line"></div>
+            <v-btn block :elevation="0" class="github-btn" @click="onLogin">
+              <v-icon class="mr-4"> mdi-github </v-icon>
+              Continue with GitHub</v-btn
             >
           </div>
-          <v-btn
-            class="start-btn text-subtitle-1 font-weight-black px-10 white--text"
-            @click="connect"
-            >Connect</v-btn
-          >
-        </div>
-      </div>
-    </v-dialog>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-dialog v-model="gitOverlay" width="500">
       <div class="connect-box pa-14">
         <div class="text-caption grey--text text--darken-2 mb-7">
@@ -105,7 +64,7 @@
           Metamask is locked, please open the extension before continuing.
         </div>
         <v-btn
-          class="start-btn text-subtitle-1 font-weight-black px-10"
+          class="start-btn text-subtitle-1 font-weight-black px-10 white--text"
           @click="lockOverlay = false"
           >RETRY</v-btn
         >
@@ -114,8 +73,13 @@
   </div>
 </template>
 <script>
-import contracts from "@/contracts";
-
+import {
+  ExchangeCode,
+  ConnectMetaMask,
+  SignMetaMask,
+  ConnectPhantom,
+  SignPhantom,
+} from "@/utils/index.js";
 const authApi = process.env.VUE_APP_AUTH_URL;
 const BUCKET_HOST = process.env.VUE_APP_BUCKET_HOST;
 export default {
@@ -128,26 +92,16 @@ export default {
       lockOverlay: false,
       accounts: "",
       inviteCode: null,
-      iconList: [
+      walletItem: [
         {
-          img: require("@/assets/imgs/home/icon_01.png"),
-          name: "Secruity",
-          text: "Protection against DDoS attacks",
+          name: "MetaMask",
+          icon: require("@/assets/imgs/metamask.png"),
+          btnText: "Popular",
         },
         {
-          img: require("@/assets/imgs/home/icon_02.png"),
-          name: "Performance",
-          text: "Global CDN web optimization",
-        },
-        {
-          img: require("@/assets/imgs/home/icon_03.png"),
-          name: "Reliability",
-          text: "Always availble and online",
-        },
-        {
-          img: require("@/assets/imgs/home/icon_04.png"),
-          name: "Insights",
-          text: "Built in analytics and more",
+          name: "Phantom",
+          icon: require("@/assets/imgs/phantom.png"),
+          btnText: "Solana",
         },
       ],
     };
@@ -155,7 +109,6 @@ export default {
   created() {
     const code = this.$route.query.code;
     const inviteCode = this.$route.query.inviteCode;
-    console.log(this.$route);
     if (inviteCode) {
       this.inviteCode = inviteCode;
     }
@@ -195,72 +148,101 @@ export default {
         console.log(error);
       }
     },
-    async connect() {
-      if (!window.ethereum) {
-        window.open("https://metamask.io/download.html", "_blank");
-        return;
+    connect(name) {
+      switch (name) {
+        case "MetaMask":
+          this.metaMaskConnect();
+          break;
+        case "Phantom":
+          this.phantomConnect();
+          break;
+        default:
+          break;
       }
-
-      const isUnlocked = await window.ethereum._metamask.isUnlocked();
-      if (!isUnlocked) {
-        console.log("Metamask has been locked, please unlock it.");
-        this.connectOverlay = false;
-        this.lockOverlay = true;
-        return;
-      }
-
-      let accounts = await window.ethereum.request({
-        method: "eth_accounts",
-      });
-      if (accounts.length === 0) {
-        accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-      }
-
-      this.$axios.get(`${authApi}/web3code/${accounts[0]}`).then((res) => {
-        console.log(res);
-        this.accounts = accounts[0];
-        this.sign(res.data.data.nonce);
-      });
-      //   window.location.reload();
     },
-    async sign(nonce) {
-      try {
-        const accounts = this.accounts;
-        this.msg = nonce;
-        const signature = await contracts.signer.signMessage(this.msg);
-        const data = {
-          signature,
-          appName: "BUCKET",
-          inviteCode: this.inviteCode,
-        };
-        this.$axios
-          .post(`${authApi}/web3login/${accounts}`, data)
-          .then((res) => {
-            if (res.data.data.stoken) {
-              location.href = `${BUCKET_HOST}/login?stoken=${res.data.data.stoken}`;
-            }
-          });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        this.loading = false;
+    async metaMaskConnect() {
+      const accounts = await ConnectMetaMask();
+      if (!accounts) {
+        return;
       }
+      const nonce = await ExchangeCode(accounts[0]);
+      if (!nonce) {
+        return;
+      }
+      SignMetaMask(accounts, nonce, this.inviteCode);
+    },
+    async phantomConnect() {
+      const publicKey = await ConnectPhantom();
+      if (!publicKey) {
+        return;
+      }
+      const nonce = await ExchangeCode(publicKey);
+      if (!nonce) {
+        return;
+      }
+      SignPhantom(publicKey, nonce, this.inviteCode);
     },
   },
 };
 </script>
 <style lang="less" scoped>
 .home {
-  .wallet-box {
-    background: linear-gradient(150deg, #e1f2ff, #fff6f6);
-    border-radius: 10px;
-    max-width: 50%;
+  .wallet {
+    width: 430px;
     margin: 0 auto;
-    .start-btn {
-      background: linear-gradient(90deg, #fdb6fe, #acc0fd, #31adfe);
-      border-radius: 44px;
+    .wallet-box {
+      box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      .wallet-item {
+        height: 70px;
+        padding: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:first-child {
+          border-bottom: 1px solid #e6e8eb;
+        }
+        &-name {
+          display: flex;
+          align-items: center;
+        }
+        img {
+          width: 24px;
+        }
+        .name {
+          font-size: 20px;
+          font-family: Arial-BoldMT, Arial;
+          font-weight: normal;
+          color: #495667;
+          margin-left: 20px;
+        }
+        .start-btn {
+          color: #495667;
+          border-radius: 6px;
+        }
+        &:first-child .start-btn {
+          color: #fff;
+        }
+      }
+    }
+    .line {
+      width: 112px;
+      height: 1px;
+      border-bottom: 1px solid #e6e8eb;
+      margin: 0 auto;
+      margin-top: 24px;
+    }
+    .github-btn {
+      width: 429px;
+      height: 60px;
+      box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      border: 1px solid #e6e8eb;
+      background-color: #fff;
+      color: #b7babe;
+      margin: 0 auto;
+      margin-top: 24px;
+      font-size: 18px;
     }
   }
 }

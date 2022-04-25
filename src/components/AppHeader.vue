@@ -16,7 +16,7 @@
         >
           <template #activator="{ on, attrs }">
             <v-btn
-              class="hidden-sm-and-down nav-btn text-subtitle-1"
+              class="hidden-sm-and-down nav-btn text-subtitle-1 ma-6"
               plain
               replace
               :href="item.href"
@@ -124,33 +124,19 @@ export default {
       showDrawer: false,
       links: [
         {
-          text: "Support",
-          childs: [
-            {
-              text: "Documentation",
-              href: "https://docs.hosting.4everland.org/guide/",
-              target: "_blank",
-            },
-            {
-              text: "Grants",
-              href: "https://4everland.org/grants",
-              target: "_blank",
-            },
-            {
-              text: "Bug Bounty",
-              href: "https://hosting.4everland.org/#/bug-bounty",
-              target: "_blank",
-            },
-            {
-              text: "FAQ",
-              href: "https://4everland.org/hosting/#faq",
-              target: "_blank",
-            },
-            {
-              text: "Contact us",
-              href: "mailto:contact@4everlan.org",
-            },
-          ],
+          text: "Blog",
+          href: "https://4everland.org/blog",
+          target: "_blank",
+        },
+        {
+          text: "Docs",
+          href: "https://docs.4everland.org/",
+          target: "_blank",
+        },
+        {
+          text: "Community",
+          href: "https://discord.com/channels/852482727164117022/902425111947268106",
+          target: "_blank",
         },
       ],
     };
