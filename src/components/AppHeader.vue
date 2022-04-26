@@ -2,7 +2,12 @@
   <div>
     <v-app-bar fixed app color="#FAFAFA" height="100">
       <v-container class="d-flex align-center">
-        <v-btn text color="transparent" to="/" class="always-active mr-8">
+        <v-btn
+          text
+          color="transparent"
+          href="https://4everland.org/"
+          class="always-active mr-8"
+        >
           <logo />
         </v-btn>
         <v-spacer />
@@ -16,7 +21,7 @@
         >
           <template #activator="{ on, attrs }">
             <v-btn
-              class="hidden-sm-and-down nav-btn text-subtitle-1 ma-6"
+              class="hidden-sm-and-down nav-btn text-subtitle-1 ma-2"
               plain
               replace
               :href="item.href"
@@ -25,14 +30,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              <v-img
-                v-if="item.icon"
-                contain
-                width="90"
-                :src="item.icon"
-                alt=""
-              />
-              <span v-else>
+              <span>
                 {{ item.text }}
                 <v-icon v-if="item.childs">{{ mdiChevronDown }}</v-icon>
               </span>
