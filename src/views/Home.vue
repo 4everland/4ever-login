@@ -29,7 +29,7 @@
                 <v-btn
                   :elevation="0"
                   class="start-btn text-subtitle-2"
-                  :color="index == 0 ? '#34A9FF' : '#E6E8EB'"
+                  :color="index == 0 ? '#34A9FF' : '#eef7ff'"
                   small
                   @click="connect(item.name)"
                   >{{ item.btnText }}</v-btn
@@ -188,7 +188,8 @@ export default {
 <style lang="less" scoped>
 .home {
   .wallet {
-    width: 430px;
+    width: 100%;
+    max-width: 430px;
     margin: 0 auto;
     .wallet-box {
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
@@ -217,7 +218,7 @@ export default {
           margin-left: 20px;
         }
         .start-btn {
-          color: #495667;
+          color: #3eadff;
           border-radius: 6px;
         }
         &:first-child .start-btn {
@@ -233,7 +234,8 @@ export default {
       margin-top: 24px;
     }
     .github-btn {
-      width: 429px;
+      width: 100%;
+      max-width: 430px;
       height: 60px;
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
       border-radius: 5px;
