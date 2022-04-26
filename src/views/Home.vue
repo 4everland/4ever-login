@@ -21,6 +21,7 @@
                 class="wallet-item"
                 v-for="(item, index) in walletItem"
                 :key="item.name"
+                @click="connect(item.name)"
               >
                 <div class="wallet-item-name">
                   <img :src="item.icon" alt="" />
@@ -31,7 +32,6 @@
                   class="start-btn text-subtitle-2"
                   :color="index == 0 ? '#34A9FF' : '#eef7ff'"
                   small
-                  @click="connect(item.name)"
                   >{{ item.btnText }}</v-btn
                 >
               </div>
@@ -200,6 +200,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        cursor: pointer;
         &:first-child {
           border-bottom: 1px solid #e6e8eb;
         }
