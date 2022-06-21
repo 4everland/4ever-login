@@ -1,5 +1,15 @@
 import axios from "axios";
 import contracts from "@/contracts";
+import * as fcl from "@onflow/fcl";
+fcl
+  .config()
+  .put("accessNode.api", process.env.VUE_APP_FLOW_API)
+  .put("app.detail.title", "4EVERLAND")
+  .put(
+    "app.detail.icon",
+    "https://eco.4everland.space/logo/4EVERLAND-logo3.png"
+  )
+  .put("discovery.wallet", process.env.VUE_APP_FLOW_DISCOVERY);
 
 const authApi = process.env.VUE_APP_AUTH_URL;
 // eslint-disable-next-line no-unused-vars
@@ -85,6 +95,34 @@ export const SignPhantom = async (accounts, nonce, inviteCode) => {
       type: "SOLANA",
     };
     const stoken = await Web3Login(accounts, data);
+    location.href = `${BUCKET_HOST}/login?stoken=${stoken}`;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const ConnectFlow = async () => {
+  try {
+    await fcl.authenticate();
+    return fcl.currentUser.snapshot();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const SignFlow = async (accounts, nonce, inviteCode) => {
+  try {
+    const MSG = Buffer.from(nonce).toString("hex");
+    const signUserMessage = await fcl.currentUser.signUserMessage(MSG);
+    const data = {
+      signature: signUserMessage[0].signature,
+      keyId: signUserMessage[0].keyId,
+      appName: "BUCKET",
+      inviteCode,
+      type: "ONFLOW",
+    };
+    const stoken = await Web3Login(accounts, data);
+    console.log(stoken);
     location.href = `${BUCKET_HOST}/login?stoken=${stoken}`;
   } catch (e) {
     console.log(e);

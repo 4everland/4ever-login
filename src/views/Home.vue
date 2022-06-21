@@ -10,33 +10,31 @@
             Login to 4EVERLAND
           </div>
           <div class="wallet">
-            <div
-              class="text-Subtitle-1 font-weight-bold mb-4 ml-1"
-              style="color: #495667"
-            >
-              Connect your wallet
-            </div>
             <div class="wallet-box">
+              <div class="text-center text-Subtitle-1" style="color: #495667">
+                Connect your wallet
+              </div>
               <div
                 class="wallet-item"
-                v-for="(item, index) in walletItem"
+                v-for="item in walletItem"
                 :key="item.name"
                 @click="connect(item.name)"
               >
                 <div class="wallet-item-name">
-                  <img :src="item.icon" alt="" />
                   <span class="name">{{ item.name }}</span>
                 </div>
-                <v-btn
+                <img :src="item.icon" alt="" />
+
+                <!-- <v-btn
                   :elevation="0"
                   class="start-btn text-subtitle-2"
                   :color="index == 0 ? '#34A9FF' : '#eef7ff'"
                   small
                   >{{ item.btnText }}</v-btn
-                >
+                > -->
               </div>
             </div>
-            <div class="line"></div>
+            <!-- <div class="line"></div> -->
             <v-btn block :elevation="0" class="github-btn" @click="onLogin">
               <v-icon class="mr-4"> mdi-github </v-icon>
               Continue with GitHub</v-btn
@@ -73,12 +71,15 @@
   </div>
 </template>
 <script>
+import * as fcl from "@onflow/fcl";
 import {
   ExchangeCode,
   ConnectMetaMask,
   SignMetaMask,
   ConnectPhantom,
   SignPhantom,
+  ConnectFlow,
+  SignFlow,
 } from "@/utils/index.js";
 const authApi = process.env.VUE_APP_AUTH_URL;
 const BUCKET_HOST = process.env.VUE_APP_BUCKET_HOST;
@@ -103,6 +104,11 @@ export default {
           icon: require("@/assets/imgs/phantom.png"),
           btnText: "Solana",
         },
+        {
+          name: "Flow",
+          icon: require("@/assets/imgs/flow.svg"),
+          btnText: "Flow",
+        },
       ],
     };
   },
@@ -116,6 +122,7 @@ export default {
       this.getAuth(code);
     }
   },
+  mounted() {},
   methods: {
     async onLogin() {
       try {
@@ -156,6 +163,9 @@ export default {
         case "Phantom":
           this.phantomConnect();
           break;
+        case "Flow":
+          this.flowConnect();
+          break;
         default:
           break;
       }
@@ -182,6 +192,28 @@ export default {
       }
       SignPhantom(publicKey, nonce, this.inviteCode);
     },
+    async flowConnect() {
+      fcl.unauthenticate();
+      // anywhere on the page
+      const currentUser = await ConnectFlow();
+      console.log(currentUser);
+      if (!currentUser.addr) {
+        return;
+      }
+      const nonce = await ExchangeCode(currentUser.addr);
+      if (!nonce) {
+        return;
+      }
+      SignFlow(currentUser.addr, nonce, this.inviteCode);
+    },
+    async signMessage() {
+      const MSG = Buffer.from("FOO").toString("hex");
+      try {
+        return await fcl.currentUser.signUserMessage(MSG);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>
@@ -194,15 +226,18 @@ export default {
     .wallet-box {
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
+      padding: 0 30px;
+      padding-top: 20px;
       .wallet-item {
         height: 70px;
-        padding: 25px;
+        padding: 25px 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
-        &:first-child {
-          border-bottom: 1px solid #e6e8eb;
+        border-bottom: 1px solid #e6e8eb;
+        &:last-child {
+          border-bottom: none;
         }
         &-name {
           display: flex;
@@ -216,7 +251,6 @@ export default {
           font-family: Arial-BoldMT, Arial;
           font-weight: normal;
           color: #495667;
-          margin-left: 20px;
         }
         .start-btn {
           color: #3eadff;
@@ -244,7 +278,7 @@ export default {
       background-color: #fff;
       color: #b7babe;
       margin: 0 auto;
-      margin-top: 24px;
+      margin-top: 38px;
       font-size: 18px;
     }
   }
