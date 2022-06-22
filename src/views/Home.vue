@@ -9,11 +9,15 @@
           >
             Login to 4EVERLAND
           </div>
+
           <div class="wallet">
+            <div
+              class="font-weight-bold text-Subtitle-1 mb-4 ml-1"
+              style="color: #495667"
+            >
+              Connect your wallet
+            </div>
             <div class="wallet-box">
-              <div class="text-center text-Subtitle-1" style="color: #495667">
-                Connect your wallet
-              </div>
               <div
                 class="wallet-item"
                 v-for="item in walletItem"
@@ -226,7 +230,6 @@ export default {
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
       padding: 0 30px;
-      padding-top: 20px;
       .wallet-item {
         height: 70px;
         padding: 25px 0;
