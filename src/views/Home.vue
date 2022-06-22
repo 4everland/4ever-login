@@ -22,6 +22,7 @@
                 class="wallet-item"
                 v-for="item in walletItem"
                 :key="item.name"
+                v-ripple="{ class: `info--text` }"
                 @click="connect(item.name)"
               >
                 <div class="wallet-item-name">
@@ -229,10 +230,10 @@ export default {
     .wallet-box {
       box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
       border-radius: 8px;
-      padding: 0 30px;
+      // padding: 0 30px;
       .wallet-item {
         height: 70px;
-        padding: 25px 0;
+        padding: 25px 30px;
         display: flex;
         justify-content: space-between;
         align-items: center;
