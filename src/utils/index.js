@@ -45,7 +45,6 @@ export const ConnectMetaMask = async () => {
       method: "eth_requestAccounts",
     });
   }
-  console.log(accounts);
   return accounts;
 };
 
@@ -114,15 +113,19 @@ export const SignFlow = async (accounts, nonce, inviteCode) => {
   try {
     const MSG = Buffer.from(nonce).toString("hex");
     const signUserMessage = await fcl.currentUser.signUserMessage(MSG);
+    const signature = signUserMessage[0].signature;
+    const keyId = signUserMessage[0].keyId;
+    if (!signature) {
+      return;
+    }
     const data = {
-      signature: signUserMessage[0].signature,
-      keyId: signUserMessage[0].keyId,
+      signature,
+      keyId,
       appName: "BUCKET",
       inviteCode,
       type: "ONFLOW",
     };
     const stoken = await Web3Login(accounts, data);
-    console.log(stoken);
     location.href = `${BUCKET_HOST}/login?stoken=${stoken}`;
   } catch (e) {
     console.log(e);

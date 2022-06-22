@@ -196,7 +196,6 @@ export default {
       fcl.unauthenticate();
       // anywhere on the page
       const currentUser = await ConnectFlow();
-      console.log(currentUser);
       if (!currentUser.addr) {
         return;
       }
