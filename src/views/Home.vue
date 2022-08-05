@@ -118,6 +118,7 @@ export default {
     };
   },
   created() {
+    location.href = `${BUCKET_HOST}/login`;
     const code = this.$route.query.code;
     const inviteCode = this.$route.query.inviteCode;
     if (inviteCode) {

@@ -133,7 +133,7 @@ export default {
         },
         {
           text: "Community",
-          href: "https://discord.com/channels/852482727164117022/902425111947268106",
+          href: "http://discord.gg/4everland",
           target: "_blank",
         },
       ],
